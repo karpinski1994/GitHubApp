@@ -19,9 +19,6 @@ class ProfilesList extends Component {
   }
 
   render() {
-    console.log('------------------------------')
-    console.log('UsersList.js -> render()')
-    console.log(Date.now());
     const isSearch = false;
     const profiles = this.props.usersFromStore  ? (
        this.props.usersFromStore.map(profile => {

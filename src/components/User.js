@@ -15,9 +15,6 @@ const user = (props) => {
       <Button onPress={props.showProfile} title="Show Profile" />
     );
   }
-  console.log('------------------------------')
-  console.log('Users.js ->')
-  console.log(Date.now());
 
   return (
     <ScrollView contentContainerStyle={styles.user}>

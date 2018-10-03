@@ -27,9 +27,6 @@ class TabsService {
   }
 
   openTabDispatcher = (index) => {
-    console.log('------------------------------')
-    console.log('tabsService.js -> openTabDispatcher()')
-    console.log(Date.now());
     store.dispatch({
       type: 'OPEN_TAB',
       activatedTabIndex: index,
@@ -67,9 +64,6 @@ class TabsService {
   }
 
   openTab = (tab, fromPopState) => {
-    console.log('------------------------------')
-    console.log('tabsService.js -> openTab()')
-    console.log(Date.now());
     const existingTabIndex = store.getState().tabsList.findIndex(t => compareObjects(t, tab));
     if (existingTabIndex === -1) {
       this.createTabDispatcher(tab);
@@ -80,9 +74,6 @@ class TabsService {
   }
 
   activateTab = (tab, fromPopState) => {
-    console.log('------------------------------')
-    console.log('tabsService.js -> activateTab()')
-    console.log(Date.now());
     const existingTabIndex = store.getState().tabsList.findIndex(t => compareObjects(t, tab));
     this.openTabDispatcher(existingTabIndex);
     if (!fromPopState) {

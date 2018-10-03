@@ -55,9 +55,6 @@ function updateProfile(state, action) {
 }
 
 function openTab(state, action) {
-  console.log('------------------------------')
-  console.log('rootReducer.js -> openTab()')
-  console.log(Date.now());
   return {
     ...state,
     activeTab: action.activatedTabIndex,
@@ -65,9 +62,6 @@ function openTab(state, action) {
 }
 
 function createTab(state, action) {
-  console.log('------------------------------')
-  console.log('rootReducer.js -> createTab()')
-  console.log(Date.now());
   const newTabsList = [...state.tabsList, {
     ...action.data,
   }];

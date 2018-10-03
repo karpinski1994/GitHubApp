@@ -38,9 +38,6 @@ class ProfilesSearch extends Component {
   }
 
   render() {
-    console.log('------------------------------')
-    console.log('ProfilesSearch.js -> render()')
-    console.log(Date.now());
     const users = this.state.users;
     if (users) {
       users.filter((u) => {

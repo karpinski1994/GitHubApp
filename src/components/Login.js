@@ -25,9 +25,6 @@ class Login extends Component {
 
 
   render () {
-    console.log('------------------------------')
-    console.log('Login.js -> render()')
-    console.log(Date.now());
     let message = '';
     if (this.props.token && !this.props.token.error) {
       this.shouldRenderChildren = false;

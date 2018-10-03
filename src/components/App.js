@@ -61,9 +61,6 @@ class App extends Component{
   }
 
   render() {
-    console.log('------------------------------')
-    console.log('App.js -> render()')
-    console.log(Date.now());
     if (!this.state.loaded) {
       return <Text>Loading...</Text>;
     }

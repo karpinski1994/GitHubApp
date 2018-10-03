@@ -10,6 +10,8 @@ import authorizationService from '../services/authorizationService';
 
 import TabsService from '../services/tabsService';
 
+import Autocomplete from '../components/Autocomplete';
+
 class Home extends Component {
   constructor() {
     super();
@@ -28,32 +30,19 @@ class Home extends Component {
   }
 
   openSearchHandler = () => {
-    console.log('------------------------------')
-    console.log('Home.js -> openSearchHandler()')
-    console.log(Date.now());
     this.tabsService.openTab({ tabType: 'search', data: {} });
   }
 
   openProfileListHandler = () => {
-    console.log('------------------------------')
-    console.log('Home.js -> openProfileListHandler()')
-    console.log(Date.now());
     this.tabsService.openTab({ tabType: 'profiles-list', data: {} });
   }
 
   logoutHandler = () => {
-    console.log('------------------------------')
-    console.log('Home.js -> logoutHandler()')
-    console.log(Date.now());
     authorizationService.logout();
     this.setState({loggedOut: true});
   }
 
   render() {
-    console.log('------------------------------')
-    console.log('------------------------------')
-    console.log('Home.js -> render()')
-    console.log(Date.now());
     if(this.state.loggedOut) {
       return (<Redirect to="/" />);
     }
@@ -96,6 +85,7 @@ class Home extends Component {
         <ScrollView contentContainerStyle={styles.content}>
           {/* content */}
           { tabs }
+          <Autocomplete />
         </ScrollView>
 
         <View style={styles.nav}>
