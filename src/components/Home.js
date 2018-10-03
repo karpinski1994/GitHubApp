@@ -51,6 +51,7 @@ class Home extends Component {
 
   render() {
     console.log('------------------------------')
+    console.log('------------------------------')
     console.log('Home.js -> render()')
     console.log(Date.now());
     if(this.state.loggedOut) {
