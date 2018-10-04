@@ -18,6 +18,8 @@ class Home extends Component {
     this.tabsService = new TabsService();
     this.state = {
       loggedOut: false,
+      passedUsers: [],
+      selectedUser: '',
     }
   }
 
@@ -40,6 +42,20 @@ class Home extends Component {
   logoutHandler = () => {
     authorizationService.logout();
     this.setState({loggedOut: true});
+  }
+
+  getUsersData = (userName) => {
+    const usersSearchApi = 'https://api.github.com/search/users?q=';
+    return fetch(usersSearchApi + userName)
+      .then(response => response.json())
+      .then(usersData => usersData.items)
+      .then((users) => {
+        return users;
+      });
+  }
+
+  onSelectHandler = (userNameFromInput) => {
+    this.setState({ selectedUser: userNameFromInput});
   }
 
   render() {
@@ -85,7 +101,13 @@ class Home extends Component {
         <ScrollView contentContainerStyle={styles.content}>
           {/* content */}
           { tabs }
-          <Autocomplete />
+          <Autocomplete
+            dataSourceFn={(inputValue) => this.getUsersData(inputValue)}
+            onSelect={(itemName) => this.onSelectHandler(itemName)}
+            selectedItem={this.state.selectedUser}
+            labelField="login"
+            minChars={2}
+          />
         </ScrollView>
 
         <View style={styles.nav}>

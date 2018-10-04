@@ -17,7 +17,6 @@ const tabIndicator = (props) => {
       key={Math.random().toString(36).substr(2, 9)}
     >
       <Button
-        key={Math.random().toString(36).substr(2, 9)}
         onPress={props.openTab}
         title={title}
         color={props.index === props.openedTab ? 'lightblue' : 'steelblue'}
