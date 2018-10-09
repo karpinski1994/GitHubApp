@@ -19,7 +19,8 @@ class Home extends Component {
     this.state = {
       loggedOut: false,
       passedUsers: [],
-      selectedUser: '',
+      selectedUser: {},
+      inputValue: 'Insert value',
     }
   }
 
@@ -45,20 +46,49 @@ class Home extends Component {
   }
 
   getUsersData = (userName) => {
-    const usersSearchApi = 'https://api.github.com/search/users?q=';
-    return fetch(usersSearchApi + userName)
-      .then(response => response.json())
-      .then(usersData => usersData.items)
-      .then((users) => {
-        return users;
-      });
-  }
+    const ownController = new AbortController();
+    const ownCtrlSignal = ownController.signal;
 
-  onSelectHandler = (userNameFromInput) => {
-    this.setState({ selectedUser: userNameFromInput});
+    const fetchObj =
+    {
+      controller: ownController,
+      signal: ownCtrlSignal,
+      fetch: fetch(
+        `https://test-githut-login-app.herokuapp.com/github/search/users?q=${userName}`,
+        {
+          method: 'GET',
+          signal: ownCtrlSignal,
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            authorization: '9247fce1be0c9c73bee3dfd4f7003686',
+          },
+          redirect: 'follow',
+          referrer: 'no-referrer',
+        },
+      )
+        .then(response => response.json())
+        .then(usersData => usersData.items),
+    };
+
+    this.activeFetches.forEach((fetch) => {
+      fetch.controller.abort();
+    });
+
+    this.activeFetches.push(fetchObj);
+    return fetchObj.fetch;
+  }
+  activeFetches = [];
+
+  onSelectHandler = (user) => {
+    console.log('user', user)
+    this.setState({ selectedUser: user, inputTitle: user.login});
   }
 
   render() {
+    console.log(this.state.selectedUser);
     if(this.state.loggedOut) {
       return (<Redirect to="/" />);
     }
@@ -97,16 +127,18 @@ class Home extends Component {
           {/* header */}
           { tabHeaders }
         </ScrollView>
-
-        <ScrollView contentContainerStyle={styles.content}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handle">
           {/* content */}
           { tabs }
           <Autocomplete
             dataSourceFn={(inputValue) => this.getUsersData(inputValue)}
-            onSelect={(itemName) => this.onSelectHandler(itemName)}
+            onSelect={(item) => this.onSelectHandler(item)}
             selectedItem={this.state.selectedUser}
             labelField="login"
             minChars={2}
+            hintsNo={5}
           />
         </ScrollView>
 
@@ -169,5 +201,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     marginRight: 5,
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: "#555",
+    backgroundColor: '#eee',
+    marginTop:20,
+    padding: 5,
   },
 });

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
 
 import User from '../User';
@@ -10,10 +11,12 @@ class ProfilesList extends Component {
   static propTypes = {
     usersFromStore: PropTypes.array.isRequired,
   };
+
   constructor() {
     super();
     this.tabsService = new TabsService();
   }
+
   showProfileHandler = (id) => {
     this.tabsService.openTab({ tabType: 'profile', data: { id } });
   }
