@@ -116,24 +116,25 @@ class Autocomplete extends Component {
           Alert.alert('Modal has been closed.');
         }}>
           <View style={styles.navbar}>
-          <TouchableHighlight onPress={() => this.toggleModal()}>
-            <Svg height="60" width="30">
-              <Path
-                  d="M10.273,5.009c0.444-0.444,1.143-0.444,1.587,0c0.429,0.429,0.429,1.143,0,1.571l-8.047,8.047h26.554  c0.619,0,1.127,0.492,1.127,1.111c0,0.619-0.508,1.127-1.127,1.127H3.813l8.047,8.032c0.429,0.444,0.429,1.159,0,1.587  c-0.444,0.444-1.143,0.444-1.587,0l-9.952-9.952c-0.429-0.429-0.429-1.143,0-1.571L10.273,5.009z"
-                  fill="black"
+            <TouchableHighlight onPress={() => this.toggleModal()}>
+              <Svg height="60" width="30">
+                <Path
+                    d="M10.273,5.009c0.444-0.444,1.143-0.444,1.587,0c0.429,0.429,0.429,1.143,0,1.571l-8.047,8.047h26.554  c0.619,0,1.127,0.492,1.127,1.111c0,0.619-0.508,1.127-1.127,1.127H3.813l8.047,8.032c0.429,0.444,0.429,1.159,0,1.587  c-0.444,0.444-1.143,0.444-1.587,0l-9.952-9.952c-0.429-0.429-0.429-1.143,0-1.571L10.273,5.009z"
+                    fill="black"
+                />
+              </Svg>
+            </TouchableHighlight>
+            <View style={styles.inputContainer}>
+              <TextInput
+                value={this.state.inputValue}
+                style={styles.input}
+                onChangeText={(text) => this.setInputValue(text)}
+                onFocus={() => this.setItems()}
+                onSubmitEditing={() => this.selectItem()}
+                ref={(input) => { this.modalTextInput = input; }} withRef
               />
-            </Svg>
-          </TouchableHighlight>
-          <View style={styles.inputContainer}>
-            <TextInput
-              value={this.state.inputValue}
-              style={styles.input}
-              onChangeText={(text) => this.setInputValue(text)}
-              onSubmitEditing={() => this.selectItem()}
-              ref={(input) => { this.modalTextInput = input; }} withRef
-            />
-            {items ? <View style={styles.selectsContainer}>{items}</View> : null}
-          </View>
+              {items ? <View style={styles.selectsContainer}>{items}</View> : null}
+            </View>
             <TouchableHighlight onPress={() => this.clearInput()}>
               <Svg height="60" width="60">
               <G>
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
   },
   select: {
     padding: 5,
+    borderColor: '#eee',
     backgroundColor: '#eee',
   },
 });
