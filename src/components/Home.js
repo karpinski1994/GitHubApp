@@ -63,7 +63,7 @@ class Home extends Component {
           credentials: 'same-origin',
           headers: {
             'Content-Type': 'application/json; charset=utf-8',
-            authorization: '9247fce1be0c9c73bee3dfd4f7003686',
+            authorization: 'be301ef8a55b8a47ae7ef76e36c0c764',
           },
           redirect: 'follow',
           referrer: 'no-referrer',
@@ -83,12 +83,10 @@ class Home extends Component {
   activeFetches = [];
 
   onSelectHandler = (user) => {
-    console.log('user', user)
-    this.setState({ selectedUser: user, inputTitle: user.login});
+    this.setState({ selectedUser: user, inputValue: user.login});
   }
 
   render() {
-    console.log(this.state.selectedUser);
     if(this.state.loggedOut) {
       return (<Redirect to="/" />);
     }
@@ -138,7 +136,7 @@ class Home extends Component {
             selectedItem={this.state.selectedUser}
             labelField="login"
             minChars={2}
-            hintsNo={5}
+            hintsNo={8}
           />
         </ScrollView>
 

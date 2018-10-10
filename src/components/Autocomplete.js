@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
-import {TextInput, Text, View, Modal, TouchableHighlight, Alert} from 'react-native';
+import {TextInput, Text, View, Modal, TouchableHighlight, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import Svg,{
+  Circle,
+  Rect,
+} from 'react-native-svg';
 import {StyleSheet} from 'react-native';
 import { debounce } from 'lodash';
+
+const { width, height } = Dimensions.get('window');
 
 class Autocomplete extends Component {
   constructor(props) {
@@ -46,7 +52,10 @@ class Autocomplete extends Component {
   }
 
   selectItem = (item) => {
-    this.setState({ inputValue: item[this.props.labelField], items: [], selectedItem: item });
+    if (item) {
+      this.setState({ inputValue: item[this.props.labelField], items: [], selectedItem: item });
+      this.props.onSelect(item);
+    }
     this.toggleModal();
   }
 
@@ -58,7 +67,9 @@ class Autocomplete extends Component {
   toggleModal = () => {
     this.setState({modalVisible: !this.state.modalVisible}, () => {
       if (this.state.modalVisible === true ) {
-        if(this.secondTextInput) this.secondTextInput.focus();
+        if(this.modalTextInput) this.modalTextInput.focus();
+      } else {
+        if(this.componentTextInput) this.componentTextInput.blur();
       }
     });
     console.log(this.state.modalVisible);
@@ -66,19 +77,24 @@ class Autocomplete extends Component {
 
   render() {
     let items = this.state.items;
-    if(this.state.inputValue.length > 2 && Array.isArray(items) && items.length > 0) {
-      items = items.map(item => {
-        return <Text
-                style={styles.select}
-                onPress={() => this.selectItem(item)}
-                key={Math.random().toString(36).substr(2, 9)}
-                >
-                  {item[`${this.props.labelField}`]}
-                </Text>
-      });
+    console.log('inputValue: ', this.state.inputValue);
+    console.log('items: ', this.state.items);
+    if(this.state.inputValue.length > this.props.minChars) {
+      if (Array.isArray(items) && items.length > 0) {
+        items = items.map(item => {
+          return <Text
+                  style={styles.select}
+                  onPress={() => this.selectItem(item)}
+                  key={Math.random().toString(36).substr(2, 9)}
+                  >
+                    {item[this.props.labelField]}
+                  </Text>
+        });
+      }
     } else {
       items = null;
     }
+
 
     return (
       <View>
@@ -91,31 +107,31 @@ class Autocomplete extends Component {
           }}>
 
           <View style={{marginTop: 22}}>
-            <View>
-                <TextInput
-                  value={this.state.inputValue}
-                  style={styles.input}
-                  onChangeText={(text) => this.setInputValue(text)}
-                  onSubmitEditing={this.selectItem}
-                  ref={(input) => { this.secondTextInput = input; }} withRef
-                />
-                {items ? <View style={styles.selectsContainer}>
-                  {items}
-                </View> : null}
-              <TouchableHighlight
-                onPress={() => this.toggleModal()}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
+            <View></View>
+            <TextInput
+              value={this.state.inputValue}
+              style={styles.input}
+              onChangeText={(text) => this.setInputValue(text)}
+              onSubmitEditing={() => this.selectItem()}
+              ref={(input) => { this.modalTextInput = input; }} withRef
+            />
+            {items ? <View style={styles.selectsContainer}>{items}</View> : null}
+            <TouchableHighlight
+              onPress={() => this.toggleModal()}>
+              <Text>Hide Modal</Text>
+            </TouchableHighlight>
           </View>
 
         </Modal>
-          <TextInput
-          style={styles.input}
-          placeholder='Insert value'
-          onFocus={() => this.toggleModal()}
-          value={this.state.inputValue}
-          />
+          <TouchableOpacity onPress={() => this.toggleModal()}>
+            <View pointerEvents="none">
+              <TextInput
+                value={this.state.inputValue}
+                style={styles.input}
+                placeholder="Insert value"
+              />
+            </View>
+          </TouchableOpacity>
       </View>
     );
   }
@@ -137,6 +153,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
     borderBottomColor: 'transparent',
     marginTop: -2,
+    flexDirection: 'column',
   },
   select: {
     backgroundColor: '#eee',
