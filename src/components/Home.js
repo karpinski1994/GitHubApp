@@ -3,15 +3,17 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-native';
 import {StyleSheet, View, ScrollView} from 'react-native';
+import 'abortcontroller-polyfill';
 
 import Nav from './Nav';
 import TabIndicator from './TabIndicator';
-import authorizationService from '../services/authorizationService';
 
+import authorizationService from '../services/authorizationService';
 import TabsService from '../services/tabsService';
 
 import Autocomplete from '../components/Autocomplete';
 
+const AbortController = window.AbortController;
 class Home extends Component {
   constructor() {
     super();
