@@ -65,7 +65,7 @@ class Home extends Component {
           credentials: 'same-origin',
           headers: {
             'Content-Type': 'application/json; charset=utf-8',
-            authorization: '1bea4ddd5d039df3b0c417078e9972b5',
+            authorization: 'c8e3f5a6673c96b23382f9705d89129f',
           },
           redirect: 'follow',
           referrer: 'no-referrer',
