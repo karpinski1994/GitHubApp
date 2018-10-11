@@ -81,13 +81,8 @@ class Autocomplete extends Component {
 
   toggleModal = () => {
     this.setState({modalVisible: !this.state.modalVisible}, () => {
-      if (this.state.modalVisible === true ) {
-        if(this.modalTextInput) this.modalTextInput.focus();
-      } else {
         if(this.componentTextInput) this.componentTextInput.blur();
-      }
     });
-    console.log(this.state.modalVisible);
   }
 
   render() {
@@ -137,6 +132,7 @@ class Autocomplete extends Component {
                 onFocus={() => this.setItems()}
                 onSubmitEditing={() => this.selectItem()}
                 ref={(input) => { this.modalTextInput = input; }} withRef
+                autoFocus
               />
               {items ? <View style={styles.selectsContainer}>{items}</View> : null}
             </View>
