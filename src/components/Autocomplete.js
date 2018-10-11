@@ -67,7 +67,6 @@ class Autocomplete extends Component {
       const items = [...this.state.items];
       const selectedItem = items.find(item => item[this.props.labelField] === this.state.inputValue);
       if(selectedItem) {
-        console.log(selectedItem);
         this.props.onSelect(selectedItem);
       }
     }
@@ -75,7 +74,6 @@ class Autocomplete extends Component {
   }
 
   toggleHints = () => {
-    console.log('true');
     this.setState({ areHintsVisible: true });
   }
 
