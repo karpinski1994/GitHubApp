@@ -11,7 +11,8 @@ import TabIndicator from './TabIndicator';
 import authorizationService from '../services/authorizationService';
 import TabsService from '../services/tabsService';
 
-import Autocomplete from '../components/Autocomplete';
+// import Autocomplete from '../components/Autocomplete';
+import NowyKomponent from './NowyKomponent';
 
 const AbortController = window.AbortController;
 class Home extends Component {
@@ -132,14 +133,15 @@ class Home extends Component {
           keyboardShouldPersistTaps="handle">
           {/* content */}
           { tabs }
-          <Autocomplete
+          {/* <Autocomplete
             dataSourceFn={(inputValue) => this.getUsersData(inputValue)}
             onSelect={(item) => this.onSelectHandler(item)}
             selectedItem={this.state.selectedUser}
             labelField="login"
             minChars={2}
             hintsNo={8}
-          />
+          /> */}
+          <NowyKomponent />
         </ScrollView>
 
         <View style={styles.nav}>
