@@ -64,7 +64,12 @@ class Autocomplete extends Component {
       this.setState({ inputValue: item[this.props.labelField], items: [], selectedItem: item });
       this.props.onSelect(item);
     } else {
-      this.props.onSelect({});
+      const items = [...this.state.items];
+      const selectedItem = items.find(item => item[this.props.labelField] === this.state.inputValue);
+      if(selectedItem) {
+        console.log(selectedItem);
+        this.props.onSelect(selectedItem);
+      }
     }
     this.toggleModal();
   }
